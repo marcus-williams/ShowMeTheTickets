@@ -1,0 +1,18 @@
+﻿@{ ViewBag.Title = "Category"; }
+@model IEnumerable<GogoKit.Models.Response.Category>
+@using Newtonsoft.Json;
+
+<div class="row">
+    <div class="col-md-10">
+        <h2 class="global-heading">: Category</h2>
+        @foreach (var item in Model)
+        {
+            <table>
+                <tr>
+                    <td>@item.Name</td>
+                </tr>
+            </table>
+        }
+        <p>@JsonConvert.SerializeObject(Model)</p>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@model ShowMeTheTickets.ViewModels.EventVM
+@{ ViewBag.Title = "Event Details"; }
+
+<h2>: Event Details</h2>
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(m => m.Title)</dt>
+    <dd>@Model.Title</dd>
+    <dt>@Html.DisplayNameFor(m => m.StartDate)</dt>
+    <dd>@Model.StartDate</dd>
+    <dt>@Html.DisplayNameFor(m => m.MinimumPrice)</dt>
+    <dd>@Model.MinimumPrice</dd>
+
+    <dt>@Html.DisplayNameFor(m => m.VenueName)</dt>
+    <dd>@Model.VenueName</dd>
+    <dt>@Html.DisplayNameFor(m => m.City)</dt>
+    <dd>@Model.City</dd>
+    <dt>@Html.DisplayNameFor(m => m.Country)</dt>
+    <dd>@Model.Country</dd>
+</dl>
+
+@using (Ajax.BeginForm("FindEvent", "Home", new { EventLink = Model.EventLink, SortBy = "SortBy" }, new AjaxOptions
+{
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "POST"
+}))
+{
+    <select id="SortBy" name="SortBy" class="form-control" style="display:inline;">
+        <option>Alphabetical</option>
+        <option>NumberOfTickets</option>
+        <option>Price</option>
+        <option>Type</option>
+    </select>
+    <input type="submit" value="filter" />
+}
+<div class="row">
+    <div class="col-md-2">Section<br /></div>
+    <div class="col-md-2">Number Of Tickets<br /></div>
+    <div class="col-md-2">Type<br /></div>
+    <div class="col-md-2">Price<br /></div>
+</div>
+@foreach (var item in Model.Tickets)
+{
+    <div class="row">
+        <div class="col-md-2">@item.SeatSection<br /></div>
+        <div class="col-md-2">@item.NumberOfTickets<br /></div>
+        <div class="col-md-2">@item.TicketType<br /></div>
+        <div class="col-md-2">@item.Price<br /></div>
+    </div>
+}
+<br style="clear:both;" />

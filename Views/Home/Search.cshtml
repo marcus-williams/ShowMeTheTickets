@@ -1,0 +1,43 @@
+﻿@{ ViewBag.Title = "Search"; }
+@model IEnumerable<ShowMeTheTickets.ViewModels.SearchVM>
+
+<div class="row">
+    <div class="col-md-10">
+        @using (Ajax.BeginForm("Search", "Home", new { SearchTerm = "SearchTerm", SortBy = "SortBy" }, new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST"
+        }))
+        {
+        <h2 style="display:inline;">: Search </h2>
+        <input style="display:inline; border-radius:5px;" class="form-control" type="search" id="SearchTerm" name="SearchTerm">
+        <input type="submit" value="Find" />
+        <select id="SortBy" name="SortBy" class="form-control" style="display:inline;">
+            <option>Alphabetical</option>
+            <option>City</option>
+            <option>Country</option>
+            <option>Date</option>
+            <option>Price</option>
+        </select>
+        }
+
+        <h5>@ViewBag.NoEvents</h5>
+        @foreach (var item in Model)
+        {
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-12">@Html.ActionLink(item.Title, "FindEvent", new { SearchIndex = item.SearchIndex, EventLink = item.EventLink })</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">@item.City, @item.Country</div>
+                    <div class="col-md-3 @(@item.Cheapest == true ? "cheapestTickets" : "")" >Minimum Price - @item.MinimumPrice</div>
+                    <div class="col-md-3">@item.Date</div>
+                    @if (item.Cheapest == true)
+                    {
+                        <div class='col-md-2 cheapestTickets'>Cheapest Tickets</div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
